@@ -68,7 +68,7 @@ class MX_GENMSL_API MslShaderGenerator : public HwShaderGenerator
     virtual string MathMatrixScalarMathOperators() const;
     virtual void MetalizeGeneratedShader(ShaderStage& shaderStage) const;
  
-    void emitConstantBufferDeclerations(GenContext& context,
+    void emitConstantBufferDeclarations(GenContext& context,
                                         HwResourceBindingContextPtr resourceBindingCtx,
                                         ShaderStage& stage) const;
     

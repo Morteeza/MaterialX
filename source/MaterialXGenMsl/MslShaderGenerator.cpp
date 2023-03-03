@@ -618,7 +618,7 @@ void MslShaderGenerator::emitVertexStage(const ShaderGraph& graph, GenContext& c
     }
     emitLineBreak(stage);
 
-    emitConstantBufferDeclerations(context, resourceBindingCtx, stage);
+    emitConstantBufferDeclarations(context, resourceBindingCtx, stage);
 
     // Add vertex inputs
     emitInputs(context, stage);
@@ -758,7 +758,7 @@ void MslShaderGenerator::emitConstants(GenContext& context, ShaderStage& stage) 
     }
 }
 
-void MslShaderGenerator::emitConstantBufferDeclerations(GenContext& context,
+void MslShaderGenerator::emitConstantBufferDeclarations(GenContext& context,
                                                         HwResourceBindingContextPtr resourceBindingCtx,
                                                         ShaderStage& stage) const
 {
@@ -1032,7 +1032,7 @@ void MslShaderGenerator::emitPixelStage(const ShaderGraph& graph, GenContext& co
     // Add type definitions
     emitTypeDefinitions(context, stage);
     
-    emitConstantBufferDeclerations(context, resourceBindingCtx, stage);
+    emitConstantBufferDeclarations(context, resourceBindingCtx, stage);
 
     // Add all constants
     emitConstants(context, stage);
