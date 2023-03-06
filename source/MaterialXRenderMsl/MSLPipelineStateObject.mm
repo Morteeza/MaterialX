@@ -559,7 +559,9 @@ ImagePtr MslProgram::bindTexture(id<MTLRenderCommandEncoder> renderCmdEncoder,
     return nullptr;
 }
 
-MaterialX::ValuePtr MslProgram::findUniformValue(const string& uniformName, const MslProgram::InputMap& uniformList)
+MaterialX::ValuePtr MslProgram::findUniformValue(
+                                    const string& uniformName,
+                                    const MslProgram::InputMap& uniformList)
 {
     auto uniform = uniformList.find(uniformName);
     if (uniform != uniformList.end())

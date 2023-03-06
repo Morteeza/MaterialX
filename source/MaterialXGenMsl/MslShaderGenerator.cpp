@@ -59,93 +59,113 @@ MslShaderGenerator::MslShaderGenerator() :
     // Register all custom node implementation classes
     //
 
+    StringVec elementNames;
+    
     // <!-- <switch> -->
-    // <!-- 'which' type : float -->
-    registerImplementation("IM_switch_float_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_color3_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_color4_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_vector2_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_vector3_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_vector4_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    // <!-- 'which' type : integer -->
-    registerImplementation("IM_switch_floatI_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_color3I_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_color4I_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_vector2I_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_vector3I_" + MslShaderGenerator::TARGET, SwitchNode::create);
-    registerImplementation("IM_switch_vector4I_" + MslShaderGenerator::TARGET, SwitchNode::create);
+    elementNames = {
+        // <!-- 'which' type : float -->
+        "IM_switch_float_"   + MslShaderGenerator::TARGET,
+        "IM_switch_color3_"  + MslShaderGenerator::TARGET,
+        "IM_switch_color4_"  + MslShaderGenerator::TARGET,
+        "IM_switch_vector2_" + MslShaderGenerator::TARGET,
+        "IM_switch_vector3_" + MslShaderGenerator::TARGET,
+        "IM_switch_vector4_" + MslShaderGenerator::TARGET,
+        
+        // <!-- 'which' type : integer -->
+        "IM_switch_floatI_" + MslShaderGenerator::TARGET,
+        "IM_switch_color3I_" + MslShaderGenerator::TARGET,
+        "IM_switch_color4I_" + MslShaderGenerator::TARGET,
+        "IM_switch_vector2I_" + MslShaderGenerator::TARGET,
+        "IM_switch_vector3I_" + MslShaderGenerator::TARGET,
+        "IM_switch_vector4I_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, SwitchNode::create);
 
     // <!-- <swizzle> -->
-    // <!-- from type : float -->
-    registerImplementation("IM_swizzle_float_color3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_color4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_vector2_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_vector3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_vector4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    // <!-- from type : color3 -->
-    registerImplementation("IM_swizzle_color3_float_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_color3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_color4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_vector2_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_vector3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_vector4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    // <!-- from type : color4 -->
-    registerImplementation("IM_swizzle_color4_float_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_color3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_color4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_vector2_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_vector3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_vector4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    // <!-- from type : vector2 -->
-    registerImplementation("IM_swizzle_vector2_float_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_color3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_color4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_vector2_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_vector3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_vector4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    // <!-- from type : vector3 -->
-    registerImplementation("IM_swizzle_vector3_float_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_color3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_color4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_vector2_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_vector3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_vector4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    // <!-- from type : vector4 -->
-    registerImplementation("IM_swizzle_vector4_float_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_color3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_color4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_vector2_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_vector3_" + MslShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_vector4_" + MslShaderGenerator::TARGET, SwizzleNode::create);
+    elementNames = {
+        // <!-- from type : float -->
+        "IM_swizzle_float_color3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_float_color4_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_float_vector2_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_float_vector3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_float_vector4_" + MslShaderGenerator::TARGET,
+        
+        // <!-- from type : color3 -->
+        "IM_swizzle_color3_float_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color3_color3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color3_color4_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color3_vector2_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color3_vector3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color3_vector4_" + MslShaderGenerator::TARGET,
+        
+        // <!-- from type : color4 -->
+        "IM_swizzle_color4_float_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color4_color3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color4_color4_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color4_vector2_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color4_vector3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_color4_vector4_" + MslShaderGenerator::TARGET,
+        
+        // <!-- from type : vector2 -->
+        "IM_swizzle_vector2_float_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector2_color3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector2_color4_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector2_vector2_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector2_vector3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector2_vector4_" + MslShaderGenerator::TARGET,
+        
+        // <!-- from type : vector3 -->
+        "IM_swizzle_vector3_float_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector3_color3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector3_color4_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector3_vector2_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector3_vector3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector3_vector4_" + MslShaderGenerator::TARGET,
+        
+        // <!-- from type : vector4 -->
+        "IM_swizzle_vector4_float_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector4_color3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector4_color4_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector4_vector2_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector4_vector3_" + MslShaderGenerator::TARGET,
+        "IM_swizzle_vector4_vector4_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, SwizzleNode::create);
 
     // <!-- <convert> -->
-    registerImplementation("IM_convert_float_color3_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_float_color4_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_float_vector2_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_float_vector3_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_float_vector4_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_vector2_vector3_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_vector3_vector2_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_vector3_color3_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_vector3_vector4_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_vector4_vector3_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_vector4_color4_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_color3_vector3_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_color4_vector4_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_color3_color4_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_color4_color3_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_boolean_float_" + MslShaderGenerator::TARGET, ConvertNode::create);
-    registerImplementation("IM_convert_integer_float_" + MslShaderGenerator::TARGET, ConvertNode::create);
+    elementNames = {
+        "IM_convert_float_color3_" + MslShaderGenerator::TARGET,
+        "IM_convert_float_color4_" + MslShaderGenerator::TARGET,
+        "IM_convert_float_vector2_" + MslShaderGenerator::TARGET,
+        "IM_convert_float_vector3_" + MslShaderGenerator::TARGET,
+        "IM_convert_float_vector4_" + MslShaderGenerator::TARGET,
+        "IM_convert_vector2_vector3_" + MslShaderGenerator::TARGET,
+        "IM_convert_vector3_vector2_" + MslShaderGenerator::TARGET,
+        "IM_convert_vector3_color3_" + MslShaderGenerator::TARGET,
+        "IM_convert_vector3_vector4_" + MslShaderGenerator::TARGET,
+        "IM_convert_vector4_vector3_" + MslShaderGenerator::TARGET,
+        "IM_convert_vector4_color4_" + MslShaderGenerator::TARGET,
+        "IM_convert_color3_vector3_" + MslShaderGenerator::TARGET,
+        "IM_convert_color4_vector4_" + MslShaderGenerator::TARGET,
+        "IM_convert_color3_color4_" + MslShaderGenerator::TARGET,
+        "IM_convert_color4_color3_" + MslShaderGenerator::TARGET,
+        "IM_convert_boolean_float_" + MslShaderGenerator::TARGET,
+        "IM_convert_integer_float_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, ConvertNode::create);
 
     // <!-- <combine> -->
-    registerImplementation("IM_combine2_vector2_" + MslShaderGenerator::TARGET, CombineNode::create);
-    registerImplementation("IM_combine2_color4CF_" + MslShaderGenerator::TARGET, CombineNode::create);
-    registerImplementation("IM_combine2_vector4VF_" + MslShaderGenerator::TARGET, CombineNode::create);
-    registerImplementation("IM_combine2_vector4VV_" + MslShaderGenerator::TARGET, CombineNode::create);
-    registerImplementation("IM_combine3_color3_" + MslShaderGenerator::TARGET, CombineNode::create);
-    registerImplementation("IM_combine3_vector3_" + MslShaderGenerator::TARGET, CombineNode::create);
-    registerImplementation("IM_combine4_color4_" + MslShaderGenerator::TARGET, CombineNode::create);
-    registerImplementation("IM_combine4_vector4_" + MslShaderGenerator::TARGET, CombineNode::create);
+    elementNames = {
+        "IM_combine2_vector2_" + MslShaderGenerator::TARGET,
+        "IM_combine2_color4CF_" + MslShaderGenerator::TARGET,
+        "IM_combine2_vector4VF_" + MslShaderGenerator::TARGET,
+        "IM_combine2_vector4VV_" + MslShaderGenerator::TARGET,
+        "IM_combine3_color3_" + MslShaderGenerator::TARGET,
+        "IM_combine3_vector3_" + MslShaderGenerator::TARGET,
+        "IM_combine4_color4_" + MslShaderGenerator::TARGET,
+        "IM_combine4_vector4_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, CombineNode::create);
 
     // <!-- <position> -->
     registerImplementation("IM_position_vector3_" + MslShaderGenerator::TARGET, PositionNodeMsl::create);
@@ -163,15 +183,18 @@ MslShaderGenerator::MslShaderGenerator() :
     registerImplementation("IM_geomcolor_color3_" + MslShaderGenerator::TARGET, GeomColorNodeMsl::create);
     registerImplementation("IM_geomcolor_color4_" + MslShaderGenerator::TARGET, GeomColorNodeMsl::create);
     // <!-- <geompropvalue> -->
-    registerImplementation("IM_geompropvalue_integer_" + MslShaderGenerator::TARGET, GeomPropValueNodeMsl::create);
+    elementNames = {
+        "IM_geompropvalue_integer_" + MslShaderGenerator::TARGET,
+        "IM_geompropvalue_float_" + MslShaderGenerator::TARGET,
+        "IM_geompropvalue_color3_" + MslShaderGenerator::TARGET,
+        "IM_geompropvalue_color4_" + MslShaderGenerator::TARGET,
+        "IM_geompropvalue_vector2_" + MslShaderGenerator::TARGET,
+        "IM_geompropvalue_vector3_" + MslShaderGenerator::TARGET,
+        "IM_geompropvalue_vector4_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, GeomPropValueNodeMsl::create);
     registerImplementation("IM_geompropvalue_boolean_" + MslShaderGenerator::TARGET, GeomPropValueNodeMslAsUniform::create);
     registerImplementation("IM_geompropvalue_string_" + MslShaderGenerator::TARGET, GeomPropValueNodeMslAsUniform::create);
-    registerImplementation("IM_geompropvalue_float_" + MslShaderGenerator::TARGET, GeomPropValueNodeMsl::create);
-    registerImplementation("IM_geompropvalue_color3_" + MslShaderGenerator::TARGET, GeomPropValueNodeMsl::create);
-    registerImplementation("IM_geompropvalue_color4_" + MslShaderGenerator::TARGET, GeomPropValueNodeMsl::create);
-    registerImplementation("IM_geompropvalue_vector2_" + MslShaderGenerator::TARGET, GeomPropValueNodeMsl::create);
-    registerImplementation("IM_geompropvalue_vector3_" + MslShaderGenerator::TARGET, GeomPropValueNodeMsl::create);
-    registerImplementation("IM_geompropvalue_vector4_" + MslShaderGenerator::TARGET, GeomPropValueNodeMsl::create);
 
     // <!-- <frame> -->
     registerImplementation("IM_frame_float_" + MslShaderGenerator::TARGET, FrameNodeMsl::create);
@@ -196,12 +219,15 @@ MslShaderGenerator::MslShaderGenerator() :
     registerImplementation("IM_heighttonormal_vector3_" + MslShaderGenerator::TARGET, HeightToNormalNodeMsl::create);
 
     // <!-- <blur> -->
-    registerImplementation("IM_blur_float_" + MslShaderGenerator::TARGET, BlurNodeMsl::create);
-    registerImplementation("IM_blur_color3_" + MslShaderGenerator::TARGET, BlurNodeMsl::create);
-    registerImplementation("IM_blur_color4_" + MslShaderGenerator::TARGET, BlurNodeMsl::create);
-    registerImplementation("IM_blur_vector2_" + MslShaderGenerator::TARGET, BlurNodeMsl::create);
-    registerImplementation("IM_blur_vector3_" + MslShaderGenerator::TARGET, BlurNodeMsl::create);
-    registerImplementation("IM_blur_vector4_" + MslShaderGenerator::TARGET, BlurNodeMsl::create);
+    elementNames = {
+        "IM_blur_float_" + MslShaderGenerator::TARGET,
+        "IM_blur_color3_" + MslShaderGenerator::TARGET,
+        "IM_blur_color4_" + MslShaderGenerator::TARGET,
+        "IM_blur_vector2_" + MslShaderGenerator::TARGET,
+        "IM_blur_vector3_" + MslShaderGenerator::TARGET,
+        "IM_blur_vector4_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, BlurNodeMsl::create);
 
     // <!-- <ND_transformpoint> ->
     registerImplementation("IM_transformpoint_vector3_" + MslShaderGenerator::TARGET, TransformPointNodeMsl::create);
@@ -213,12 +239,15 @@ MslShaderGenerator::MslShaderGenerator() :
     registerImplementation("IM_transformnormal_vector3_" + MslShaderGenerator::TARGET, TransformNormalNodeMsl::create);
 
     // <!-- <image> -->
-    registerImplementation("IM_image_float_" + MslShaderGenerator::TARGET, HwImageNode::create);
-    registerImplementation("IM_image_color3_" + MslShaderGenerator::TARGET, HwImageNode::create);
-    registerImplementation("IM_image_color4_" + MslShaderGenerator::TARGET, HwImageNode::create);
-    registerImplementation("IM_image_vector2_" + MslShaderGenerator::TARGET, HwImageNode::create);
-    registerImplementation("IM_image_vector3_" + MslShaderGenerator::TARGET, HwImageNode::create);
-    registerImplementation("IM_image_vector4_" + MslShaderGenerator::TARGET, HwImageNode::create);
+    elementNames = {
+        "IM_image_float_" + MslShaderGenerator::TARGET,
+        "IM_image_color3_" + MslShaderGenerator::TARGET,
+        "IM_image_color4_" + MslShaderGenerator::TARGET,
+        "IM_image_vector2_" + MslShaderGenerator::TARGET,
+        "IM_image_vector3_" + MslShaderGenerator::TARGET,
+        "IM_image_vector4_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, HwImageNode::create);
 
     // <!-- <layer> -->
     registerImplementation("IM_layer_bsdf_" + MslShaderGenerator::TARGET, ClosureLayerNode::create);
@@ -230,10 +259,13 @@ MslShaderGenerator::MslShaderGenerator() :
     registerImplementation("IM_add_bsdf_" + MslShaderGenerator::TARGET, ClosureAddNode::create);
     registerImplementation("IM_add_edf_" + MslShaderGenerator::TARGET, ClosureAddNode::create);
     // <!-- <multiply> -->
-    registerImplementation("IM_multiply_bsdfC_" + MslShaderGenerator::TARGET, ClosureMultiplyNode::create);
-    registerImplementation("IM_multiply_bsdfF_" + MslShaderGenerator::TARGET, ClosureMultiplyNode::create);
-    registerImplementation("IM_multiply_edfC_" + MslShaderGenerator::TARGET, ClosureMultiplyNode::create);
-    registerImplementation("IM_multiply_edfF_" + MslShaderGenerator::TARGET, ClosureMultiplyNode::create);
+    elementNames = {
+        "IM_multiply_bsdfC_" + MslShaderGenerator::TARGET,
+        "IM_multiply_bsdfF_" + MslShaderGenerator::TARGET,
+        "IM_multiply_edfC_" + MslShaderGenerator::TARGET,
+        "IM_multiply_edfF_" + MslShaderGenerator::TARGET,
+    };
+    registerImplementation(elementNames, ClosureMultiplyNode::create);
 
     // <!-- <thin_film> -->
     registerImplementation("IM_thin_film_bsdf_" + MslShaderGenerator::TARGET, NopNode::create);
@@ -287,6 +319,8 @@ void MslShaderGenerator::MetalizeGeneratedShader(ShaderStage& shaderStage) const
 {
     std::string sourceCode = shaderStage.getSourceCode();
     
+    // Used to convert shared code between GLSL pass by reference parameters to MSL pass by reference.
+    // Converts "inout/out Type variableName" to "thread Type& variableName"
     size_t pos = 0;
     {
         std::array<string, 2> refKeywords = { "out", "inout" };

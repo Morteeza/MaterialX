@@ -94,45 +94,6 @@ bool MslMaterial::generateShader(ShaderPtr hwShader)
     return true;
 }
 
-bool MslMaterial::generateEnvironmentShader(GenContext& context,
-                                         const FilePath& filename,
-                                         DocumentPtr stdLib,
-                                         const FilePath& imagePath)
-{
-    // Read in the environment nodegraph. 
-    DocumentPtr doc = createDocument();
-    doc->importLibrary(stdLib);
-    DocumentPtr envDoc = createDocument();
-    readFromXmlFile(envDoc, filename);
-    doc->importLibrary(envDoc);
-
-    NodeGraphPtr envGraph = doc->getNodeGraph("environmentDraw");
-    if (!envGraph)
-    {
-        return false;
-    }
-    NodePtr image = envGraph->getNode("envImage");
-    if (!image)
-    {
-        return false;
-    }
-    image->setInputValue("file", imagePath.asString(), FILENAME_TYPE_STRING);
-    OutputPtr output = envGraph->getOutput("out");
-    if (!output)
-    {
-        return false;
-    }
-
-    // Create the shader.
-    std::string shaderName = "__ENV_SHADER__";
-    _hwShader = createShader(shaderName, context, output); 
-    if (!_hwShader)
-    {
-        return false;
-    }
-    return generateShader(_hwShader);
-}
-
 bool MslMaterial::bindShader() const
 {
     if (_glProgram)
