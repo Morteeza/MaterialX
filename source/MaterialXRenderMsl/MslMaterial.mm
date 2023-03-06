@@ -244,7 +244,7 @@ void MslMaterial::bindLighting(LightHandlerPtr lightHandler,
     _glProgram->bindLighting(lightHandler, imageHandler);
 
     // Bind shadow map properties
-    if (shadowState.shadowMap && _glProgram->hasUniform(HW::SHADOW_MAP + "_tex"))
+    if (shadowState.shadowMap && _glProgram->hasUniform(TEXTURE_NAME(HW::SHADOW_MAP)))
     {
         ImageSamplingProperties samplingProperties;
         samplingProperties.uaddressMode = ImageSamplingProperties::AddressMode::CLAMP;
@@ -252,12 +252,12 @@ void MslMaterial::bindLighting(LightHandlerPtr lightHandler,
         samplingProperties.filterType = ImageSamplingProperties::FilterType::LINEAR;
 
         // Bind the shadow map.
-        _glProgram->bindTexture(imageHandler, HW::SHADOW_MAP + "_tex", shadowState.shadowMap, samplingProperties);
+        _glProgram->bindTexture(imageHandler, TEXTURE_NAME(HW::SHADOW_MAP), shadowState.shadowMap, samplingProperties);
         _glProgram->bindUniform(HW::SHADOW_MATRIX, Value::createValue(shadowState.shadowMatrix));
     }
 
     // Bind ambient occlusion properties.
-    if (shadowState.ambientOcclusionMap && _glProgram->hasUniform(HW::AMB_OCC_MAP + "_tex"))
+    if (shadowState.ambientOcclusionMap && _glProgram->hasUniform(TEXTURE_NAME(HW::AMB_OCC_MAP)))
     {
         ImageSamplingProperties samplingProperties;
         samplingProperties.uaddressMode = ImageSamplingProperties::AddressMode::PERIODIC;
@@ -265,7 +265,7 @@ void MslMaterial::bindLighting(LightHandlerPtr lightHandler,
         samplingProperties.filterType = ImageSamplingProperties::FilterType::LINEAR;
 
         // Bind the ambient occlusion map.
-        _glProgram->bindTexture(imageHandler, HW::AMB_OCC_MAP + "_tex",
+        _glProgram->bindTexture(imageHandler, TEXTURE_NAME(HW::AMB_OCC_MAP),
                                 shadowState.ambientOcclusionMap,
                                 samplingProperties);
         

@@ -13,6 +13,9 @@
 
 #include <MaterialXGenShader/HwShaderGenerator.h>
 
+#define TEXTURE_NAME(t) (t + "_tex")
+#define SAMPLER_NAME(t) (t + "_sampler")
+
 MATERIALX_NAMESPACE_BEGIN
 
 using MslShaderGeneratorPtr = shared_ptr<class MslShaderGenerator>;

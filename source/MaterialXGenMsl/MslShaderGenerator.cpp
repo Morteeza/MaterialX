@@ -350,6 +350,7 @@ void MslShaderGenerator::MetalizeGeneratedShader(ShaderStage& shaderStage) const
         }
     }
     
+    // Renames GLSL constructs that are used in shared code to MSL equivalent constructs.
     std::unordered_map<string, string> replaceTokens;
     replaceTokens["sampler2D"] = "MetalTexture";
     replaceTokens["dFdy"] = "dfdy";
@@ -563,9 +564,9 @@ DEFINE_SHADER_STAGE(stage, Stage::PIXEL)
                             emitString(separator, stage);
                             emitString("MetalTexture", stage);
                             emitScopeBegin(stage);
-                            emitString(uniforms[i]->getVariable() + "_tex", stage);
+                            emitString(TEXTURE_NAME(uniforms[i]->getVariable()), stage);
                             emitString(separator, stage);
-                            emitString(uniforms[i]->getVariable() + "_sampler", stage);
+                            emitString(SAMPLER_NAME(uniforms[i]->getVariable()), stage);
                             emitScopeEnd(stage);
                         }
                         else if (globalContextMembers || globalContextConstructorParams)
@@ -598,9 +599,9 @@ DEFINE_SHADER_STAGE(stage, Stage::PIXEL)
                     if (uniform->getType() == Type::FILENAME)
                     {
                         emitString(separator, stage);
-                        emitString("texture2d<float> " + uniform->getVariable() + "_tex", stage);
+                        emitString("texture2d<float> " + TEXTURE_NAME(uniform->getVariable()), stage);
                         emitString(" [[texture(" + std::to_string(tex_slot) + ")]], ", stage);
-                        emitString("sampler " + uniform->getVariable() + "_sampler", stage);
+                        emitString("sampler " + SAMPLER_NAME(uniform->getVariable()), stage);
                         emitString(" [[sampler(" + std::to_string(tex_slot++) + ")]]", stage);
                         emitLineEnd(stage, false);
                     }

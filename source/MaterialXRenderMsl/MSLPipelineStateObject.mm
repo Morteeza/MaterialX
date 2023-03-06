@@ -11,6 +11,7 @@
 #include <MaterialXRender/ShaderRenderer.h>
 
 #include <MaterialXGenShader/HwShaderGenerator.h>
+#include <MaterialXGenMsl/MslShaderGenerator.h>
 #include <MaterialXGenShader/Util.h>
 
 #include <iostream>
@@ -716,7 +717,7 @@ void MslProgram::bindLighting(LightHandlerPtr lightHandler, ImageHandlerPtr imag
     };
     for (const auto& env : envLights)
     {
-        auto iblUniform = uniformList.find(env.first + "_tex");
+        auto iblUniform = uniformList.find(TEXTURE_NAME(env.first));
         MslProgram::InputPtr inputPtr = iblUniform != uniformList.end() ? iblUniform->second : nullptr;
         if (inputPtr)
         {
@@ -801,14 +802,14 @@ void MslProgram::bindLighting(LightHandlerPtr lightHandler, ImageHandlerPtr imag
 
     // Bind the directional albedo table, if needed.
     ImagePtr albedoTable = lightHandler->getAlbedoTable();
-    if (albedoTable && hasUniform(HW::ALBEDO_TABLE + "_tex"))
+    if (albedoTable && hasUniform(TEXTURE_NAME(HW::ALBEDO_TABLE)))
     {
         ImageSamplingProperties samplingProperties;
         samplingProperties.uaddressMode = ImageSamplingProperties::AddressMode::CLAMP;
         samplingProperties.vaddressMode = ImageSamplingProperties::AddressMode::CLAMP;
         samplingProperties.filterType = ImageSamplingProperties::FilterType::LINEAR;
         bindTexture(imageHandler,
-                    HW::ALBEDO_TABLE + "_tex",
+                    TEXTURE_NAME(HW::ALBEDO_TABLE),
                     albedoTable,
                     samplingProperties);
     }
@@ -1112,7 +1113,7 @@ try_again:      if (inputIt != _uniformList.end())
                         ++tries;
                         if(v->getType() == Type::FILENAME)
                         {
-                            inputIt = _uniformList.find(v->getVariable() + "_tex");
+                            inputIt = _uniformList.find(TEXTURE_NAME(v->getVariable()));
                         }
                         else
                         {
