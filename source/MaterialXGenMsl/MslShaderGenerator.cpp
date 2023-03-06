@@ -760,7 +760,7 @@ void MslShaderGenerator::emitDirectives(GenContext&, ShaderStage& stage) const
 {
     // Add directives
     emitLine("//Metal Shading Language version " + getVersion(), stage, false);
-    emitLine("#define __METAL__ 1",       stage, false);
+    emitLine("#define __METAL__ ",      stage, false);
     emitLine("#include <metal_stdlib>", stage, false);
     emitLine("#include <simd/simd.h>",  stage, false);
     emitLine("using namespace metal;",  stage, false);
