@@ -46,7 +46,7 @@ string TextureBaker<Renderer, ShaderGen>::getValueStringFromColor(const Color4& 
 }
 
 template<typename Renderer, typename ShaderGen>
-TextureBaker<Renderer, ShaderGen>::TextureBaker(unsigned int width, unsigned int height, Image::BaseType baseType) :
+TextureBaker<Renderer, ShaderGen>::TextureBaker(unsigned int width, unsigned int height, Image::BaseType baseType, bool flipSavedImage) :
     Renderer(width, height, baseType),
     _distanceUnit("meter"),
     _averageImages(false),
@@ -59,7 +59,8 @@ TextureBaker<Renderer, ShaderGen>::TextureBaker(unsigned int width, unsigned int
     _textureSpaceMin(0.0f),
     _textureSpaceMax(1.0f),
     _generator(ShaderGen::create()),
-    _permittedOverrides({ "$ASSET", "$MATERIAL", "$UDIMPREFIX" })
+    _permittedOverrides({ "$ASSET", "$MATERIAL", "$UDIMPREFIX" }),
+    _flipSavedImage(flipSavedImage)
 {
     if (baseType == Image::BaseType::UINT8)
     {
@@ -156,7 +157,7 @@ StringMap TextureBaker<Renderer, ShaderGen>::initializeFileTemplateMap(InputPtr 
 template<typename Renderer, typename ShaderGen>
 bool TextureBaker<Renderer, ShaderGen>::writeBakedImage(const BakedImage& baked, ImagePtr image)
 {
-    if (!Renderer::_imageHandler->saveImage(baked.filename, image, true))
+    if (!Renderer::_imageHandler->saveImage(baked.filename, image, _flipSavedImage))
     {
         if (_outputStream)
         {

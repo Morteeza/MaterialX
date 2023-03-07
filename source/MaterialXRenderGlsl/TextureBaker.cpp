@@ -15,7 +15,7 @@
 
 MATERIALX_NAMESPACE_BEGIN
 TextureBakerGlsl::TextureBakerGlsl(unsigned int width, unsigned int height, Image::BaseType baseType) :
-    TextureBaker<GlslRenderer, GlslShaderGenerator>(width, height, baseType)
+    TextureBaker<GlslRenderer, GlslShaderGenerator>(width, height, baseType, true)
 {
 }
 MATERIALX_NAMESPACE_END

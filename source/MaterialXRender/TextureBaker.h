@@ -246,7 +246,7 @@ class MX_RENDER_API TextureBaker : public Renderer
     using BakedConstantMap = std::unordered_map<OutputPtr, BakedConstant>;
 
   protected:
-    TextureBaker(unsigned int width, unsigned int height, Image::BaseType baseType);
+    TextureBaker(unsigned int width, unsigned int height, Image::BaseType baseType, bool flipSavedImage);
 
     // Populate file template variable naming map
     StringMap initializeFileTemplateMap(InputPtr input, NodePtr shader, const string& udim = EMPTY_STRING);
@@ -288,6 +288,8 @@ class MX_RENDER_API TextureBaker : public Renderer
     StringMap _bakedInputMap;
 
     std::unordered_map<string, NodePtr> _worldSpaceNodes;
+    
+    bool _flipSavedImage;
 };
 
 MATERIALX_NAMESPACE_END

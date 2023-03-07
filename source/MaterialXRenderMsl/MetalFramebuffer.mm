@@ -76,7 +76,10 @@ void MetalFramebuffer::resize(unsigned int width, unsigned int height, bool forc
             MetalTextureHandler::mapTextureFormatToMetal(_baseType, _channelCount, _encodeSrgb, dataType, pixelFormat);
 
         MTLTextureDescriptor* texDescriptor = [MTLTextureDescriptor
-                                               texture2DDescriptorWithPixelFormat:pixelFormat width:_width height:_height mipmapped:NO];
+                                               texture2DDescriptorWithPixelFormat:pixelFormat
+                                               width:width
+                                               height:height
+                                               mipmapped:NO];
         [texDescriptor setStorageMode:MTLStorageModePrivate];
         [texDescriptor setUsage:MTLTextureUsageRenderTarget|MTLTextureUsageShaderRead];
         
