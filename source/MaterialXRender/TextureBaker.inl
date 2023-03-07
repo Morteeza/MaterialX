@@ -220,13 +220,13 @@ void TextureBaker<Renderer, ShaderGen>::bakeGraphOutput(OutputPtr output, GenCon
     {
         return;
     }
-
-    ShaderPtr shader = _generator->generate("BakingShader", output, context);
-    Renderer::createProgram(shader);
-
+    
     bool encodeSrgb = _colorSpace == SRGB_TEXTURE &&
         (output->getType() == "color3" || output->getType() == "color4");
     Renderer::getFramebuffer()->setEncodeSrgb(encodeSrgb);
+
+    ShaderPtr shader = _generator->generate("BakingShader", output, context);
+    Renderer::createProgram(shader);
 
     // Render and capture the requested image.
     Renderer::renderTextureSpace(getTextureSpaceMin(), getTextureSpaceMax());
