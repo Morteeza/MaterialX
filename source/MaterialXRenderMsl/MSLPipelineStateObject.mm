@@ -683,17 +683,10 @@ void MslProgram::bindLighting(LightHandlerPtr lightHandler, ImageHandlerPtr imag
 
     const MslProgram::InputMap& uniformList = getUniformsList();
 
-    // Bind a couple of lights if can find the light information
-    int location = 0;
-
     // Set the number of active light sources
     size_t lightCount = lightHandler->getLightSources().size();
     auto input = uniformList.find(HW::NUM_ACTIVE_LIGHT_SOURCES);
-    if (input != uniformList.end())
-    {
-        location = input->second->location;
-    }
-    else
+    if (input == uniformList.end())
     {
         // No lighting information so nothing further to do
         lightCount = 0;
@@ -813,57 +806,6 @@ void MslProgram::bindLighting(LightHandlerPtr lightHandler, ImageHandlerPtr imag
                     albedoTable,
                     samplingProperties);
     }
-    
-    const vector<NodePtr> lightList = lightHandler->getLightSources();
-    const std::unordered_map<string, unsigned int>& ids = lightHandler->getLightIdMap();
-
-    size_t index = 0;
-    for (const auto& light : lightList)
-    {
-        auto nodeDef = light->getNodeDef();
-        if (!nodeDef)
-        {
-            continue;
-        }
-        const string& nodeDefName = nodeDef->getName();
-        const string prefix = HW::LIGHT_DATA_INSTANCE + "[" + std::to_string(index) + "]";
-
-        // Set light type id
-        bool boundType = false;
-        input = uniformList.find(prefix + ".type");
-        if (input != uniformList.end())
-        {
-            location = input->second->location;
-            if (location >= 0)
-            {
-                auto it = ids.find(nodeDefName);
-                if (it != ids.end())
-                {
-                    boundType = true;
-                }
-            }
-        }
-        if (!boundType)
-        {
-            continue;
-        }
-
-        // Set all inputs
-        for (const auto& lightInput : light->getInputs())
-        {
-            // Make sure we have a value to set
-            if (lightInput->hasValue())
-            {
-                input = uniformList.find(prefix + "." + lightInput->getName());
-                if (input != uniformList.end())
-                {
-                    bindUniformLocation(input->second->location, lightInput->getValue());
-                }
-            }
-        }
-
-        ++index;
-    }
 }
 
 bool MslProgram::hasUniform(const string& name)
@@ -891,21 +833,14 @@ void MslProgram::bindUniform(const string& name, ConstValuePtr value, bool error
         {
             bindUniform(globalNameMapping->second, value, errorIfMissing);
         }
-    }
-}
-
-void MslProgram::bindUniformLocation(int location, ConstValuePtr value)
-{
-    if (_pso == nil)
-    {
-        const string errorType("MSL bind uniform error.");
-        StringVec errors;
-        errors.push_back("Cannot bind without a valid program");
-        throw ExceptionRenderError(errorType, errors);
-    }
-
-    if (location >= 0 && value->getValueString() != EMPTY_STRING)
-    {
+        else
+        {
+            if (errorIfMissing)
+            {
+                throw ExceptionRenderError("Unknown uniform: " + name);
+            }
+            return;
+        }
     }
 }
 
