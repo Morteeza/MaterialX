@@ -61,14 +61,14 @@ class MX_GENMSL_API MslShaderGenerator : public HwShaderGenerator
     virtual void emitVertexStage(const ShaderGraph& graph, GenContext& context, ShaderStage& stage) const;
     virtual void emitPixelStage(const ShaderGraph& graph, GenContext& context, ShaderStage& stage) const;
 
-    virtual void emitMetalTextureClass(ShaderStage& stage) const;
+    virtual void emitMetalTextureClass(GenContext& context, ShaderStage& stage) const;
     virtual void emitDirectives(GenContext& context, ShaderStage& stage) const;
     virtual void emitConstants(GenContext& context, ShaderStage& stage) const;
     virtual void emitLightData(GenContext& context, ShaderStage& stage) const;
     virtual void emitInputs(GenContext& context, ShaderStage& stage) const;
     virtual void emitOutputs(GenContext& context, ShaderStage& stage) const;
     
-    virtual string MathMatrixScalarMathOperators() const;
+    virtual void emitMathMatrixScalarMathOperators(GenContext& context, ShaderStage& stage) const;
     virtual void MetalizeGeneratedShader(ShaderStage& shaderStage) const;
  
     void emitConstantBufferDeclarations(GenContext& context,

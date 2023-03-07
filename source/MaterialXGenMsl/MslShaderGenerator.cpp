@@ -820,41 +820,9 @@ void MslShaderGenerator::emitConstantBufferDeclarations(GenContext& context,
     }
 }
 
-void MslShaderGenerator::emitMetalTextureClass(ShaderStage& stage) const
+void MslShaderGenerator::emitMetalTextureClass(GenContext& context, ShaderStage& stage) const
 {
-    emitLine(R"(
-struct MetalTexture
-{
-    texture2d<float> tex;
-    sampler s;
-    int get_width() { return tex.get_width(); }
-    int get_height() { return tex.get_height(); }
-    int get_num_mip_levels() { return tex.get_num_mip_levels(); }
-};
-
-int get_width(MetalTexture mtlTex) { return mtlTex.get_width(); }
-
-float4 texture(MetalTexture mtlTex, float2 uv)
-{
-    return mtlTex.tex.sample(mtlTex.s, uv);
-}
-
-float4 textureLod(MetalTexture mtlTex, float2 uv, float lod)
-{
-    return mtlTex.tex.sample(mtlTex.s, uv, level(lod));
-}
-
-int2 textureSize(MetalTexture mtlTex, int mipLevel)
-{
-    return int2(mtlTex.get_width(), mtlTex.get_height());
-}
-
-int texture_mips(MetalTexture mtlTex)
-{
-    return mtlTex.tex.get_num_mip_levels();
-}
-
-)", stage);
+    emitLibraryInclude("stdlib/genmsl/lib/mx_texture.metal", context, stage);
 }
 
 void MslShaderGenerator::emitLightData(GenContext& context, ShaderStage& stage) const
@@ -988,66 +956,9 @@ bool MslShaderGenerator::requiresLighting(const ShaderGraph& graph) const
     return isBsdf || isLitSurfaceShader;
 }
 
-string MslShaderGenerator::MathMatrixScalarMathOperators() const
+void MslShaderGenerator::emitMathMatrixScalarMathOperators(GenContext& context, ShaderStage& stage) const
 {
-    return R"(
-float3x3 operator+(float3x3 a, float b)
-{
-    return a + float3x3(b,b,b,b,b,b,b,b,b);
-}
-
-float4x4 operator+(float4x4 a, float b)
-{
-    return a + float4x4(b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b);
-}
-
-float3x3 operator-(float3x3 a, float b)
-{
-    return a - float3x3(b,b,b,b,b,b,b,b,b);
-}
-
-float4x4 operator-(float4x4 a, float b)
-{
-    return a - float4x4(b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b);
-}
-
-float3x3 operator/(float3x3 a, float3x3 b)
-{
-    for(int i = 0; i < 3; ++i)
-        for(int j = 0; j < 3; ++j)
-            a[i][j] /= b[i][j];
-
-    return a;
-}
-
-float4x4 operator/(float4x4 a, float4x4 b)
-{
-    for(int i = 0; i < 4; ++i)
-        for(int j = 0; j < 4; ++j)
-            a[i][j] /= b[i][j];
-
-    return a;
-}
-
-float3x3 operator/(float3x3 a, float b)
-{
-    for(int i = 0; i < 3; ++i)
-        for(int j = 0; j < 3; ++j)
-            a[i][j] /= b;
-
-    return a;
-}
-
-float4x4 operator/(float4x4 a, float b)
-{
-    for(int i = 0; i < 4; ++i)
-        for(int j = 0; j < 4; ++j)
-            a[i][j] /= b;
-
-    return a;
-}
-
-)";
+    emitLibraryInclude("stdlib/genmsl/lib/mx_matscalaroperators.metal", context, stage);
 }
 
 void MslShaderGenerator::emitPixelStage(const ShaderGraph& graph, GenContext& context, ShaderStage& stage) const
@@ -1062,7 +973,7 @@ void MslShaderGenerator::emitPixelStage(const ShaderGraph& graph, GenContext& co
     }
     emitLineBreak(stage);
 
-    emitMetalTextureClass(stage);
+    emitMetalTextureClass(context, stage);
     
     // Add type definitions
     emitTypeDefinitions(context, stage);
@@ -1104,7 +1015,7 @@ void MslShaderGenerator::emitPixelStage(const ShaderGraph& graph, GenContext& co
         }
     }
     
-    emitLine(MathMatrixScalarMathOperators(), stage);
+    emitMathMatrixScalarMathOperators(context, stage);
     emitLine("struct GlobalContext", stage, false);
     emitScopeBegin(stage);
     {
