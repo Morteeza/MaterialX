@@ -6,6 +6,9 @@
 #include <MaterialXTest/External/Catch/catch.hpp>
 #include <MaterialXTest/MaterialXRender/RenderUtil.h>
 
+#include <MaterialXGenGlsl/GlslShaderGenerator.h>
+#include <MaterialXRenderGlsl/GlslRenderer.h>
+#include <MaterialXRenderGlsl/GLTextureHandler.h>
 #include <MaterialXRenderGlsl/TextureBaker.h>
 
 #include <MaterialXRender/GeometryHandler.h>
@@ -120,7 +123,7 @@ void GlslShaderRenderTester::createRenderer(std::ostream& log)
 
         // Set image handler on renderer
         mx::StbImageLoaderPtr stbLoader = mx::StbImageLoader::create();
-        mx::ImageHandlerPtr imageHandler = mx::GLTextureHandler::create(stbLoader);
+        mx::ImageHandlerPtr imageHandler = _renderer->createImageHandler(stbLoader);
 #if defined(MATERIALX_BUILD_OIIO)
         mx::OiioImageLoaderPtr oiioLoader = mx::OiioImageLoader::create();
         imageHandler->addLoader(oiioLoader);
@@ -421,7 +424,7 @@ void GlslShaderRenderTester::runBake(mx::DocumentPtr doc, const mx::FileSearchPa
     const unsigned bakeHeight = std::max(bakeOptions.resolution, maxImageSize.second);
 
     mx::Image::BaseType baseType = bakeOptions.hdr ? mx::Image::BaseType::FLOAT : mx::Image::BaseType::UINT8;
-    mx::TextureBakerPtr baker = mx::TextureBaker::create(bakeWidth, bakeHeight, baseType);
+    mx::TextureBakerPtr baker = mx::TextureBakerGlsl::create(bakeWidth, bakeHeight, baseType);
     baker->setupUnitSystem(doc);
     baker->setImageHandler(_renderer->getImageHandler());
     baker->setOptimizeConstants(true);

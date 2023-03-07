@@ -131,7 +131,7 @@ void MslShaderRenderTester::createRenderer(std::ostream& log)
         // Set image handler on renderer
         mx::StbImageLoaderPtr stbLoader = mx::StbImageLoader::create();
         mx::ImageHandlerPtr imageHandler =
-            mx::MetalTextureHandler::create(_device, stbLoader);
+            _renderer->createImageHandler(stbLoader);
 #if defined(MATERIALX_BUILD_OIIO)
         mx::OiioImageLoaderPtr oiioLoader = mx::OiioImageLoader::create();
         imageHandler->addLoader(oiioLoader);
@@ -431,7 +431,7 @@ void MslShaderRenderTester::runBake(mx::DocumentPtr doc, const mx::FileSearchPat
     const unsigned bakeHeight = std::max(bakeOptions.resolution, maxImageSize.second);
 
     mx::Image::BaseType baseType = bakeOptions.hdr ? mx::Image::BaseType::FLOAT : mx::Image::BaseType::UINT8;
-    mx::TextureBakerMslPtr baker = mx::TextureBakerMsl::create(_device, bakeWidth, bakeHeight, baseType);
+    mx::TextureBakerPtr baker = mx::TextureBakerMsl::create(bakeWidth, bakeHeight, baseType);
     baker->setupUnitSystem(doc);
     baker->setImageHandler(_renderer->getImageHandler());
     baker->setOptimizeConstants(true);
