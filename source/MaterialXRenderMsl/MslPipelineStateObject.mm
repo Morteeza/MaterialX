@@ -1293,6 +1293,9 @@ void MslProgram::bindUniformBuffers(id<MTLRenderCommandEncoder> renderCmdEncoder
         else if (value->getTypeString() == "string")
         {
             // Bound differently. Ignored here!
+            std::vector<unsigned char> mappedData;
+            mapValueToBufferData(value, mappedData);
+            memcpy((void*)&data[offset], mappedData.data(), mappedData.size());
         }
         else
         {

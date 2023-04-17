@@ -39,6 +39,9 @@ MX_GENSHADER_API bool isTransparentSurface(ElementPtr element, const string& tar
 /// set to opaque black.
 MX_GENSHADER_API void mapValueToColor(ConstValuePtr value, Color4& color);
 
+/// Maps a value to a data blob that can be copied to a CPU/GPU buffer.
+MX_GENSHADER_API void mapValueToBufferData(ConstValuePtr value, std::vector<unsigned char>& bufferData);
+
 /// Return whether a nodedef requires an implementation
 MX_GENSHADER_API bool requiresImplementation(ConstNodeDefPtr nodeDef);
 

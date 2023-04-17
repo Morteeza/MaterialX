@@ -7,6 +7,8 @@
 
 #include <MaterialXGenShader/HwShaderGenerator.h>
 
+#include <cstring>
+
 MATERIALX_NAMESPACE_BEGIN
 
 namespace
@@ -334,6 +336,74 @@ void mapValueToColor(ConstValuePtr value, Color4& color)
         color[1] = v[1];
         color[2] = v[2];
         color[3] = v[3];
+    }
+}
+
+void mapValueToBufferData(ConstValuePtr value, std::vector<unsigned char>& bufferData)
+{
+    if (!value)
+    {
+        return;
+    }
+    
+    if(ValuePtr bValue = value->createValueFromStrings(value->getValueString(), "boolean"))
+    {
+        ValuePtr bArrValue = value->createValueFromStrings(value->getValueString(), "booleanarray");
+        if(bValue && bValue->getValueString() != "string")
+        {
+            std::vector<bool> bArr = bArrValue->asA<BoolVec>();
+            std::vector<unsigned char> bArrChr(bArr.size());
+            for(size_t i = 0; i < bArr.size(); ++i)
+                bArrChr[i] = bArr[i];
+            bufferData.resize(bArrChr.size() * sizeof(bool));
+            std::memcpy((void*)bufferData.data(), (const void*)bArrChr.data(), bufferData.size());
+        }
+    }
+    else
+    {
+       
+        ValuePtr iValue = value->createValueFromStrings(value->getValueString(), "integer");
+        if(iValue && iValue->getTypeString() != "string")
+        {
+            bool isIntegerArr = true;
+            std::string s = value->getValueString();
+            size_t commaLoc = s.find(',');
+            while(s.length() > 0 && commaLoc != std::string::npos)
+            {
+                iValue = value->createValueFromStrings(s, "integer");
+                std::string str = s.substr(0, commaLoc);
+                if(atof(str.c_str()) != atof(iValue->getValueString().c_str()))
+                {
+                    isIntegerArr = false;
+                    break;
+                }
+                
+                size_t l = s.length();
+                s = s.substr(commaLoc+1, l-commaLoc);
+                commaLoc = s.find(',');
+            }
+            
+            if(isIntegerArr)
+            {
+                ValuePtr iArrValue = value->createValueFromStrings(value->getValueString(), "integerarray");
+                if(iArrValue && iArrValue->getTypeString() != "string")
+                {
+                    IntVec iArr = iArrValue->asA<IntVec>();
+                    bufferData.resize(iArr.size() * sizeof(int));
+                    std::memcpy((void*)bufferData.data(), (const void*)iArr.data(), bufferData.size());
+                }
+            }
+            else
+            {
+                ValuePtr fArrValue = value->createValueFromStrings(value->getValueString(), "floatarray");
+                if(fArrValue && fArrValue->getTypeString() != "string")
+                {
+                    FloatVec fArr = fArrValue->asA<FloatVec>();
+                    bufferData.resize(fArr.size() * sizeof(float));
+                    std::memcpy((void*)bufferData.data(), (const void*)fArr.data(), bufferData.size());
+                }
+            }
+        }
     }
 }
 
