@@ -16,11 +16,11 @@
 #include <MaterialXGenMdl/Nodes/ClosureLayerNodeMdl.h>
 #include <MaterialXGenMdl/Nodes/ClosureCompoundNodeMdl.h>
 #include <MaterialXGenMdl/Nodes/ClosureSourceCodeNodeMdl.h>
+#include <MaterialXGenMdl/Nodes/SwizzleNodeMdl.h>
 
 #include <MaterialXGenShader/GenContext.h>
 #include <MaterialXGenShader/Shader.h>
 #include <MaterialXGenShader/ShaderStage.h>
-#include <MaterialXGenShader/Nodes/SwizzleNode.h>
 #include <MaterialXGenShader/Nodes/ConvertNode.h>
 #include <MaterialXGenShader/Nodes/SwitchNode.h>
 #include <MaterialXGenShader/Nodes/ClosureCompoundNode.h>
@@ -42,7 +42,6 @@ const vector<string> DEFAULT_IMPORTS =
     "import ::anno::*",
     "import ::tex::*",
     "import ::mx::swizzle::*",
-    "import ::mx::cm::*",
     "using ::mx::core import *",
     "using ::mx::stdlib import *",
     "using ::mx::pbrlib import *",
@@ -84,46 +83,46 @@ MdlShaderGenerator::MdlShaderGenerator() :
 
     // <!-- <swizzle> -->
     // <!-- from type : float -->
-    registerImplementation("IM_swizzle_float_color3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_color4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_vector2_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_vector3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_float_vector4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
+    registerImplementation("IM_swizzle_float_color3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_float_color4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_float_vector2_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_float_vector3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_float_vector4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
     // <!-- from type : color3 -->
-    registerImplementation("IM_swizzle_color3_float_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_color3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_color4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_vector2_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_vector3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color3_vector4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
+    registerImplementation("IM_swizzle_color3_float_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color3_color3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color3_color4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color3_vector2_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color3_vector3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color3_vector4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
     // <!-- from type : color4 -->
-    registerImplementation("IM_swizzle_color4_float_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_color3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_color4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_vector2_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_vector3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_color4_vector4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
+    registerImplementation("IM_swizzle_color4_float_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color4_color3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color4_color4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color4_vector2_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color4_vector3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_color4_vector4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
     // <!-- from type : vector2 -->
-    registerImplementation("IM_swizzle_vector2_float_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_color3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_color4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_vector2_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_vector3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector2_vector4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
+    registerImplementation("IM_swizzle_vector2_float_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector2_color3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector2_color4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector2_vector2_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector2_vector3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector2_vector4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
     // <!-- from type : vector3 -->
-    registerImplementation("IM_swizzle_vector3_float_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_color3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_color4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_vector2_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_vector3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector3_vector4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
+    registerImplementation("IM_swizzle_vector3_float_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector3_color3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector3_color4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector3_vector2_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector3_vector3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector3_vector4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
     // <!-- from type : vector4 -->
-    registerImplementation("IM_swizzle_vector4_float_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_color3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_color4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_vector2_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_vector3_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
-    registerImplementation("IM_swizzle_vector4_vector4_" + MdlShaderGenerator::TARGET, SwizzleNode::create);
+    registerImplementation("IM_swizzle_vector4_float_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector4_color3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector4_color4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector4_vector2_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector4_vector3_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
+    registerImplementation("IM_swizzle_vector4_vector4_" + MdlShaderGenerator::TARGET, SwizzleNodeMdl::create);
 
     // <!-- <convert> -->
     registerImplementation("IM_convert_float_color3_" + MdlShaderGenerator::TARGET, ConvertNode::create);
@@ -169,14 +168,22 @@ MdlShaderGenerator::MdlShaderGenerator() :
     registerImplementation("IM_layer_bsdf_" + MdlShaderGenerator::TARGET, ClosureLayerNodeMdl::create);
     registerImplementation("IM_layer_vdf_" + MdlShaderGenerator::TARGET, ClosureLayerNodeMdl::create);
 
+    registerImplementation("IM_mix_bsdf_" + MdlShaderGenerator::TARGET, MixBsdfNodeMdl::create);
+    registerImplementation("IM_add_bsdf_" + MdlShaderGenerator::TARGET, AddOrMultiplyBsdfNodeMdl::create);
+    registerImplementation("IM_multiply_bsdfC_" + MdlShaderGenerator::TARGET, AddOrMultiplyBsdfNodeMdl::create);
+    registerImplementation("IM_multiply_bsdfF_" + MdlShaderGenerator::TARGET, AddOrMultiplyBsdfNodeMdl::create);
+
     // <!-- <thin_film_bsdf> -->
-    registerImplementation("IM_thin_film_bsdf_" + MdlShaderGenerator::TARGET, LayerableNodeMdl::create);
+    registerImplementation("IM_thin_film_bsdf_" + MdlShaderGenerator::TARGET, ClosureLayerNodeMdl::create);
 
     // <!-- <dielectric_bsdf> -->
-    registerImplementation("IM_dielectric_bsdf_" + MdlShaderGenerator::TARGET, LayerableNodeMdl::create);
+    registerImplementation("IM_dielectric_bsdf_" + MdlShaderGenerator::TARGET, ThinFilmReceiverNodeMdl::create);
+
+    // <!-- <conductor_bsdf> -->
+    registerImplementation("IM_conductor_bsdf_" + MdlShaderGenerator::TARGET, ThinFilmReceiverNodeMdl::create);
 
     // <!-- <generalized_schlick_bsdf> -->
-    registerImplementation("IM_generalized_schlick_bsdf_" + MdlShaderGenerator::TARGET, LayerableNodeMdl::create);
+    registerImplementation("IM_generalized_schlick_bsdf_" + MdlShaderGenerator::TARGET, ThinFilmReceiverNodeMdl::create);
 
     // <!-- <sheen_bsdf> -->
     registerImplementation("IM_sheen_bsdf_" + MdlShaderGenerator::TARGET, LayerableNodeMdl::create);
@@ -265,9 +272,22 @@ ShaderPtr MdlShaderGenerator::generate(const string& name, ElementPtr element, G
     // Get final result
     const string result = getUpstreamResult(outputSocket, context);
 
+    const TypeDesc* outputType = outputSocket->getType();
     if (graph.hasClassification(ShaderNode::Classification::TEXTURE))
     {
-        emitLine("color finalOutput__ = mk_color3(" + result + ")", stage);
+        if (outputType == Type::DISPLACEMENTSHADER)
+        {
+            emitLine("float3 displacement__ = " + result + ".geometry.displacement", stage);
+            emitLine("color finalOutput__ = mk_color3("
+                "r: math::dot(displacement__, state::texture_tangent_u(0)),"
+                "g: math::dot(displacement__, state::texture_tangent_v(0)),"
+                "b: math::dot(displacement__, state::normal()))", stage);
+        }
+        else
+        {
+            emitLine("float3 displacement__ = float3(0.0)", stage);
+            emitLine("color finalOutput__ = mk_color3(" + result + ")", stage);
+        }
 
         // End shader body
         emitScopeEnd(stage);
@@ -281,13 +301,16 @@ ShaderPtr MdlShaderGenerator::generate(const string& name, ElementPtr element, G
             "            intensity : finalOutput__ * math::PI,\n"
             "            mode : intensity_radiant_exitance\n"
             "        )\n"
+            "    ),\n"
+            "    geometry: material_geometry(\n"
+            "       displacement : displacement__\n"
             "    )\n"
             ");";
         emitBlock(textureMaterial, FilePath(), context, stage);
     }
     else
     {
-        emitLine(_syntax->getTypeSyntax(outputSocket->getType()).getName() + " finalOutput__ = " + result, stage);
+        emitLine(_syntax->getTypeSyntax(outputType).getName() + " finalOutput__ = " + result, stage);
 
         // End shader body
         emitScopeEnd(stage);
@@ -380,7 +403,7 @@ string MdlShaderGenerator::getUpstreamResult(const ShaderInput* input, GenContex
 
     string variable;
     const ShaderNode* upstreamNode = upstreamOutput->getNode();
-    if (upstreamNode->numOutputs() > 1)
+    if (!upstreamNode->isAGraph() && upstreamNode->numOutputs() > 1)
     {
         const CompoundNodeMdl* upstreamNodeMdl = dynamic_cast<const CompoundNodeMdl*>(&upstreamNode->getImplementation());
         if (upstreamNodeMdl && upstreamNodeMdl->unrollReturnStructMembers())

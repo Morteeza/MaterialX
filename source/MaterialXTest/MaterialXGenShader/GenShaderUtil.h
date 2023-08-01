@@ -156,13 +156,11 @@ class ShaderGeneratorTester
 {
   public:
     ShaderGeneratorTester(mx::ShaderGeneratorPtr shaderGenerator, const mx::FilePathVec& testRootPaths, 
-                            const mx::FilePath& libSearchPath, const mx::FileSearchPath& srcSearchPath, 
-                            const mx::FilePath& logFilePath, bool writeShadersToDisk) :
+                          const mx::FileSearchPath& searchPath, const mx::FilePath& logFilePath, bool writeShadersToDisk) :
         _shaderGenerator(shaderGenerator),
         _targetString(shaderGenerator ? shaderGenerator->getTarget() : "NULL"),
         _testRootPaths(testRootPaths),
-        _libSearchPath(libSearchPath),
-        _srcSearchPath(srcSearchPath),
+        _searchPath(searchPath),
         _logFilePath(logFilePath),
         _writeShadersToDisk(writeShadersToDisk)
     {
@@ -223,6 +221,9 @@ class ShaderGeneratorTester
     // Run test for source code generation
     void validate(const mx::GenOptions& generateOptions, const std::string& optionsFilePath);
 
+    // Allow the tester to alter the document, e.g., by flattening file names.
+    virtual void preprocessDocument(mx::DocumentPtr doc) {};
+
     // Compile generated source code. Default implementation does nothing.
     virtual void compileSource(const std::vector<mx::FilePath>& /*sourceCodePaths*/) {};
 
@@ -248,8 +249,7 @@ class ShaderGeneratorTester
     mx::DocumentPtr _dependLib;
 
     const mx::FilePathVec _testRootPaths;
-    const mx::FileSearchPath _libSearchPath;
-    const mx::FileSearchPath _srcSearchPath;
+    const mx::FileSearchPath _searchPath;
     const mx::FilePath _logFilePath;
     bool _writeShadersToDisk;
 
